@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Contains commerce order cleanup implementation.
+ */
+
+
+/**
+ * Implements hook_menu()
+ */
+function commerce_order_cleanup_menu() {
+  $items = array();
+
+  $items['admin/commerce/config/order-cleanup'] = array(
+    'title' => 'Commerce order cleanup',
+    'description' => 'Configure order cleanup.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('commerce_order_cleanup_settings'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'commerce_order_cleanup.admin.inc',
+  );
+
+  return $items;
+}
