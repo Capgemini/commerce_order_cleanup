@@ -21,7 +21,7 @@ function commerce_order_cleanup_settings() {
     '3 year',
   );
 
-  $form['commerce_order_cleanup_bactch_size'] = array(
+  $form['commerce_order_cleanup_batch_size'] = array(
     '#type' => 'textfield',
     '#title' => t('Batches size of bulk delete'),
     '#default_value' => variable_get('commerce_order_cleanup_bactch_size', 100),

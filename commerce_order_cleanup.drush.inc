@@ -86,7 +86,7 @@ function drush_commerce_order_cleanup_delete_orders($interval = 0) {
   // Display the state of the records before delete.
   drush_commerce_order_cleanup_state();
   $st_time = microtime(TRUE);
-  $batch_size = 2;
+  $batch_size = variable_get('commerce_order_cleanup_batch_size', 100);
   $count = count($order_ids);
   $ids = array_chunk($order_ids, $batch_size);
   $params = array('!total_count' => $count);
