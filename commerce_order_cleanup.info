@@ -7,3 +7,4 @@ dependencies[] = commerce_order
 
 ; Tests
 files[] = tests/commerce_order_cleanup.admin.test
+files[] = tests/commerce_order_cleanup.test
