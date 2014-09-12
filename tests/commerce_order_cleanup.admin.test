@@ -1,0 +1,74 @@
+<?php
+/**
+ * @file
+ * Contains test cases for Commerce Order Cleanup configuration.
+ */
+
+/**
+ * Class CommerceOrderCleanupConfigurationTestCase
+ */
+class CommerceOrderCleanupConfigurationTestCase extends CommerceBaseTestCase {
+
+  /**
+   * @var stdClass
+   *   Site admin user object.
+   */
+  protected $site_admin;
+
+  /**
+   * Implementation of getInfo().
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Commerce order cleanup configuration',
+      'description' => 'Tests configuration by setting, editing available configurations.',
+      'group' => 'Drupal Commerce',
+    );
+  }
+
+  /**
+   * Implementation of setUp().
+   */
+  function setUp() {
+    parent::setUp(array('commerce_order_cleanup'));
+    $this->site_admin = $this->createSiteAdmin();
+  }
+
+  /**
+   * Test the configuration of advanced actions through the administration
+   * interface.
+   */
+  function testConfigurationForm() {
+    $this->drupalLogin($this->site_admin);
+    $this->drupalGet('admin/commerce/config/order-cleanup');
+    $this->assertResponse(200);
+    $this->assertField('commerce_order_cleanup_batch_size');
+    $this->assertField('commerce_order_cleanup_max_date');
+
+    // Try to save configurations.
+    $edit = array(
+      'commerce_order_cleanup_batch_size' => 10,
+      'commerce_order_cleanup_max_date' => '6 months',
+    );
+    $this->drupalPost(NULL, $edit, t('Save configuration'));
+    $this->assertText(t('The configuration options have been saved.'));
+
+    // Make sure updated configuration displayed on the page.
+    $this->assertFieldByName('commerce_order_cleanup_batch_size', 10);
+    $this->assertOptionSelected('edit-commerce-order-cleanup-max-date', '6 months');
+
+    // Make sure the backend has the updated configuration values.
+    $this->assertEqual(10, variable_get('commerce_order_cleanup_batch_size', NULL));
+    $this->assertEqual('6 months', variable_get('commerce_order_cleanup_max_date', NULL));
+  }
+
+  /**
+   * Make sure link is available on store configuration page.
+   */
+  function testConfigurationUI() {
+    $this->drupalLogin($this->site_admin);
+    $this->drupalGet('admin/commerce/config');
+    $this->assertLink(t('Commerce order cleanup'));
+  }
+
+}

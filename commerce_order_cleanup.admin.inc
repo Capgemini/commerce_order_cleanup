@@ -12,19 +12,19 @@ function commerce_order_cleanup_settings() {
   $form = array();
   $period_options = array(
     '1 month',
-    '2 month',
-    '3 month',
-    '6 month',
-    '9 month',
+    '2 months',
+    '3 months',
+    '6 months',
+    '9 months',
     '1 year',
-    '2 year',
-    '3 year',
+    '2 years',
+    '3 years',
   );
 
   $form['commerce_order_cleanup_batch_size'] = array(
     '#type' => 'textfield',
     '#title' => t('Batches size of bulk delete'),
-    '#default_value' => variable_get('commerce_order_cleanup_bactch_size', 100),
+    '#default_value' => variable_get('commerce_order_cleanup_batch_size', 100),
     '#description' => t('Orders will be deleted as a small batches to avoid timeout.'),
   );
 
