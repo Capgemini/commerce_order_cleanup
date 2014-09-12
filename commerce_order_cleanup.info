@@ -4,3 +4,6 @@ package = Commerce (contrib)
 core = 7.x
 
 dependencies[] = commerce_order
+
+; Tests
+files[] = tests/commerce_order_cleanup.admin.test

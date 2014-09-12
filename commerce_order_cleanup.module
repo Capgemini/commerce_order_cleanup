@@ -19,6 +19,7 @@ function commerce_order_cleanup_menu() {
     'page arguments' => array('commerce_order_cleanup_settings'),
     'access arguments' => array('access administration pages'),
     'type' => MENU_NORMAL_ITEM,
+    'weight' => 30,
     'file' => 'commerce_order_cleanup.admin.inc',
   );
 
