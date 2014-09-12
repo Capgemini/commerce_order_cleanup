@@ -136,6 +136,11 @@ function drush_commerce_order_cleanup_list_options($property) {
   }
 }
 
+/**
+ * Provides current status of orders in the system.
+ *
+ * @return mixed
+ */
 function drush_commerce_order_cleanup_state() {
   $where = _commerce_order_cleanup_build_query_filter();
   // Query filter can throw errors for invalid data.
@@ -156,6 +161,11 @@ function drush_commerce_order_cleanup_state() {
   }
 }
 
+/**
+ * Helper to build query for given options.
+ *
+ * @return string
+ */
 function _commerce_order_cleanup_build_query_filter() {
   $where = '';
 
@@ -197,61 +207,4 @@ function _commerce_order_cleanup_build_query_filter() {
     $where = $join . 'WHERE ' . $where;
   }
   return $where;
-}
-
-/**
- * Providers available order status.
- *
- * @param string $type
- *   A string of type. Allowed value is status for now.
- *
- * @return array
- */
-function _commerce_order_cleanup_get_options($type) {
-  switch ($type) {
-    case 'status':
-      // @TODO: fix cache handler, currently throws fatal.
-      // $cache_key = 'commerce_order_cleanup:options_status';
-      // $status_list = cache_get($cache_key, array());
-      if (empty($status_list)) {
-        $result = db_query("SELECT status FROM {commerce_order} GROUP BY status");
-        foreach ($result as $row) {
-          $status_list[] = array($row->status);
-        }
-        if (!empty($status_list)) {
-          array_unshift($status_list, array('Available status'));
-        }
-        // cache_set($cache_key, $status_list);
-      }
-      return $status_list;
-  }
-}
-
-
-function _commerce_order_cleanup_calculate_changed($changed) {
-  if (is_int($changed) && _commerce_order_cleanup_is_valid_date($changed)) {
-    return $changed;
-  }
-  elseif (is_string($changed) && _commerce_order_cleanup_is_valid_date(strtotime($changed))) {
-    return strtotime($changed);
-  }
-  return NULL;
-}
-
-/**
- * Validates given date range is valid.
- *
- * @param $timestamp
- *
- * @return bool
- */
-function _commerce_order_cleanup_is_valid_date($timestamp) {
-  // if it is timestamp, make sure it is in a range.
-  // Start of commerce module in drupal.org
-  $start_date = strtotime('October 15, 2009 9:41pm');
-  $end_date = strtotime('-' . variable_get('commerce_order_cleanup_max_date', '1 year'));
-  if ($timestamp < $start_date || $timestamp > $end_date) {
-    return FALSE;
-  }
-  return TRUE;
 }
