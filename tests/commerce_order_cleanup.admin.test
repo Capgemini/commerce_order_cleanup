@@ -22,7 +22,7 @@ class CommerceOrderCleanupConfigurationTestCase extends CommerceBaseTestCase {
     return array(
       'name' => 'Commerce order cleanup configuration',
       'description' => 'Tests configuration by setting, editing available configurations.',
-      'group' => 'Drupal Commerce',
+      'group' => 'Commerce Order Cleanup',
     );
   }
 

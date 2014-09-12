@@ -1,0 +1,55 @@
+<?php
+/**
+ * @file
+ * Contains CommerceOrderCleanupUnitTest
+ */
+
+/**
+ * Class CommerceOrderCleanupUnitTest
+ */
+class CommerceOrderCleanupUnitTest extends DrupalUnitTestCase {
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'Commerce order cleanup unit test',
+      'description' => 'Test the helper functions of Commerce Order Cleanup module.',
+      'group' => 'Commerce Order Cleanup',
+    );
+  }
+
+  /**
+   * Set up the test environment.
+   */
+  public function setUp() {
+    drupal_load('module', 'commerce_order_cleanup');
+    parent::setUp();
+  }
+  /**
+   * Tests _commerce_order_cleanup_is_valid_date function.
+   */
+  public function testIsValidDate() {
+    $this->assertTrue(_commerce_order_cleanup_is_valid_date(strtotime("-2 years")));
+    $this->assertTrue(_commerce_order_cleanup_is_valid_date(time() - (2 * 365 * 24 * 60 * 60)));
+
+    // Check the lower end.
+    $this->assertFalse(_commerce_order_cleanup_is_valid_date(strtotime('October 14, 2009 9:41pm')));
+    // Check the upper limit.
+    $this->assertFalse(_commerce_order_cleanup_is_valid_date(time() - 60 * 24 * 60 * 60));
+  }
+
+  /**
+   * Tests _commerce_order_cleanup_calculate_changed function.
+   */
+  public function testCalculateChanged() {
+    $this->assertEqual(_commerce_order_cleanup_calculate_changed("-2 years"), strtotime('-2 years'));
+    $this->assertEqual(_commerce_order_cleanup_calculate_changed(time() - (2 * 365 * 24 * 60 * 60)), time() - (2 * 365 * 24 * 60 * 60));
+    // Check the lower end.
+    $this->assertNull(_commerce_order_cleanup_calculate_changed('October 14, 2009 9:41pm'));
+    // Check the upper limit.
+    $this->assertNull(_commerce_order_cleanup_calculate_changed(time() - 60 * 24 * 60 * 60));
+  }
+
+}
