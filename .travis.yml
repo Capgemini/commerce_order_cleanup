@@ -33,6 +33,7 @@ before_script:
   # reference and enable commerce_order_cleanup in build site
   - ln -s $(readlink -e $(cd -)) commerce_order_cleanup/drupal/sites/all/modules/commerce_order_cleanup
   - cd commerce_order_cleanup/drupal
+  - drush --yes dl commerce commerce_order_cleanup
   - drush --yes pm-enable commerce_order_cleanup
 
   # start a web server on port 8080, run in the background; wait for initialization
