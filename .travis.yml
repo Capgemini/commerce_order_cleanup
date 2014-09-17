@@ -30,10 +30,10 @@ before_script:
   - mysql -e 'create database commerce_order_cleanup'
   - php -d sendmail_path=`which true` ~/.composer/vendor/bin/drush.php --yes core-quick-drupal --profile=testing --no-server --db-url=mysql://root:@127.0.0.1/commerce_order_cleanup --enable=simpletest commerce_order_cleanup
 
-  # reference and enable travis_ci_drupal_module_example in build site
-  - ln -s $(readlink -e $(cd -)) commerce_order_cleanup/drupal/sites/all/modules/travis_ci_drupal_module_example
+  # reference and enable commerce_order_cleanup in build site
+  - ln -s $(readlink -e $(cd -)) commerce_order_cleanup/drupal/sites/all/modules/commerce_order_cleanup
   - cd commerce_order_cleanup/drupal
-  - drush --yes pm-enable travis_ci_drupal_module_example
+  - drush --yes pm-enable commerce_order_cleanup
 
   # start a web server on port 8080, run in the background; wait for initialization
   - drush runserver 127.0.0.1:8080 &
